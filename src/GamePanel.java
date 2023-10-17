@@ -112,7 +112,7 @@ public class GamePanel extends JPanel implements ActionListener {
             isGameRunning = false;
         }
 
-        if (x[0] > SCREEN_WIDTH) {
+        if (x[0] > SCREEN_WIDTH - 1) {
             isGameRunning = false;
         }
 
@@ -120,7 +120,7 @@ public class GamePanel extends JPanel implements ActionListener {
             isGameRunning = false;
         }
 
-        if (y[0] > SCREEN_HEIGHT) {
+        if (y[0] > SCREEN_HEIGHT - 1) {
             isGameRunning = false;
         }
 
