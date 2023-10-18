@@ -4,21 +4,21 @@ import java.awt.event.*;
 import java.util.Random;
 
 public class GamePanel extends JPanel implements ActionListener {
-    static final int SCREEN_WIDTH = 600;
-    static final int SCREEN_HEIGHT = 600;
-    static final int UNIT_SIZE = 25;
-    static final int GAME_UNITS = (SCREEN_WIDTH * SCREEN_HEIGHT) / (UNIT_SIZE * UNIT_SIZE);
-    static final int DELAY = 75;
-    final int x[] = new int[GAME_UNITS];
-    final int y[] = new int[GAME_UNITS];
-    int bodyParts = 6;
-    int applesEaten;
-    int appleX;
-    int appleY;
-    char direction = 'R';
-    boolean isGameRunning = false;
-    Timer timer;
-    Random random;
+    private final int SCREEN_WIDTH = 600;
+    private final int SCREEN_HEIGHT = 600;
+    private final int UNIT_SIZE = 25;
+    private final int GAME_UNITS = (SCREEN_WIDTH * SCREEN_HEIGHT) / (UNIT_SIZE * UNIT_SIZE);
+    private final int[] x = new int[GAME_UNITS];
+    private final int[] y = new int[GAME_UNITS];
+
+    private int bodyParts = 6;
+    private int applesEaten;
+    private int appleX;
+    private int appleY;
+    private char direction = 'R';
+    private boolean isGameRunning = false;
+    private Timer timer;
+    private Random random;
 
     public GamePanel() {
         random = new Random();
@@ -29,19 +29,20 @@ public class GamePanel extends JPanel implements ActionListener {
         startGame();
     }
 
-    public void startGame() {
+    private void startGame() {
         newApple();
         isGameRunning = true;
-        timer = new Timer(DELAY,this);
+        timer = new Timer(75,this);
         timer.start();
     }
 
+    @Override
     public void paintComponent(Graphics graphics) {
         super.paintComponent(graphics);
         draw(graphics);
     }
 
-    public void draw(Graphics graphics) {
+    private void draw(Graphics graphics) {
         if (isGameRunning) {
             graphics.setColor(Color.red);
             graphics.fillOval(appleX, appleY, UNIT_SIZE, UNIT_SIZE);
@@ -65,12 +66,12 @@ public class GamePanel extends JPanel implements ActionListener {
         }
     }
 
-    public void newApple() {
+    private void newApple() {
         appleX = random.nextInt((int)(SCREEN_WIDTH / UNIT_SIZE)) * UNIT_SIZE;
         appleY = random.nextInt((int)(SCREEN_HEIGHT / UNIT_SIZE)) * UNIT_SIZE;
     }
 
-    public void move() {
+    private void move() {
         for (int i = bodyParts; i > 0; i--) {
             x[i] = x[i - 1];
             y[i] = y[i - 1];
@@ -92,7 +93,7 @@ public class GamePanel extends JPanel implements ActionListener {
         }
     }
 
-    public void checkApple() {
+    private void checkApple() {
         if ((x[0] == appleX) && (y[0] == appleY)) {
             bodyParts++;
             applesEaten++;
@@ -100,7 +101,7 @@ public class GamePanel extends JPanel implements ActionListener {
         }
     }
 
-    public void checkCollisions() {
+    private void checkCollisions() {
         for (int i = bodyParts; i > 0; i--) {
             if ((x[0] == x[i]) && (y[0] == y[i])) {
                 isGameRunning = false;
@@ -112,7 +113,7 @@ public class GamePanel extends JPanel implements ActionListener {
             isGameRunning = false;
         }
 
-        if (x[0] > SCREEN_WIDTH - 1) {
+        if (x[0] >= SCREEN_WIDTH) {
             isGameRunning = false;
         }
 
@@ -120,7 +121,7 @@ public class GamePanel extends JPanel implements ActionListener {
             isGameRunning = false;
         }
 
-        if (y[0] > SCREEN_HEIGHT - 1) {
+        if (y[0] >= SCREEN_HEIGHT) {
             isGameRunning = false;
         }
 
@@ -129,7 +130,7 @@ public class GamePanel extends JPanel implements ActionListener {
         }
     }
 
-    public void gameOver(Graphics graphics) {
+    private void gameOver(Graphics graphics) {
         graphics.setColor(Color.red);
         graphics.setFont(new Font("Ink Free", Font.BOLD, 40));
         FontMetrics metricsScore = getFontMetrics(graphics.getFont());
@@ -152,7 +153,7 @@ public class GamePanel extends JPanel implements ActionListener {
         repaint();
     }
 
-    public class MyKeyAdapter extends KeyAdapter {
+    private class MyKeyAdapter extends KeyAdapter {
         @Override
         public void keyPressed(KeyEvent e) {
             switch(e.getKeyCode()) {
