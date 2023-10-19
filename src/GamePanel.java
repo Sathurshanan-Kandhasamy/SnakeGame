@@ -32,7 +32,7 @@ public class GamePanel extends JPanel implements ActionListener {
     private void startGame() {
         newApple();
         isGameRunning = true;
-        timer = new Timer(75,this);
+        timer = new Timer(75, this);
         timer.start();
     }
 
